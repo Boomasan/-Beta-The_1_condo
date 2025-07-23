@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>เข้าสู่ระบบ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/log_res.css">
+</head>
+<body>
+  <div id="langToggle">EN</div>
+  <h2 id="loginTitle">เข้าสู่ระบบ</h2>
+  <form id="loginForm">
+    <input type="text" name="username" placeholder="ชื่อผู้ใช้" required />
+    <input type="password" name="password" placeholder="รหัสผ่าน" required />
+    <button type="submit" id="loginBtn">เข้าสู่ระบบ</button>
+  </form>
+  <button class="link-button" id="registerBtn">สร้างบัญชีใหม่</button>
+  <p id="msg" style="color:red;"></p>
+  <button class="link-button" id="forgotpassBtn">ลืมรหัสผ่าน</button>
+  <p id="msg" style="color:red;"></p>
+
+  <script src="../JS/login.js"></script>
+</body>
+</html>

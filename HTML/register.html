@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>สมัครสมาชิก</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/log_res.css">
+</head>
+<body>
+  <div id="langToggle">EN</div>
+  <h2 id="registerTitle">สมัครสมาชิก</h2>
+  <form id="registerForm">
+    <input type="text" name="username" placeholder="ชื่อผู้ใช้" required />
+    <input type="text" name="room" placeholder="ห้องที่อาศัย" required />
+    <input type="email" name="email" placeholder="อีเมล" required />
+    <input type="tel" name="phone" placeholder="เบอร์โทรศัพท์" required />
+    <input type="password" name="password" placeholder="รหัสผ่าน" required />
+    <div class="password-requirements" id="passwordRequirements">
+      <div class="requirement" id="req-length">• <span id="req-length-text">อย่างน้อย 8 ตัวอักษร</span></div>
+      <div class="requirement" id="req-upper">• <span id="req-upper-text">ตัวอักษรใหญ่อย่างน้อย 1 ตัว</span></div>
+      <div class="requirement" id="req-lower">• <span id="req-lower-text">ตัวอักษรเล็กอย่างน้อย 1 ตัว</span></div>
+      <div class="requirement" id="req-number">• <span id="req-number-text">ตัวเลขอย่างน้อย 1 ตัว</span></div>
+    </div>
+    <input type="password" name="confirmPassword" placeholder="ยืนยันรหัสผ่าน" required />
+    <button type="submit" id="registerBtn">สมัครสมาชิก</button>
+  </form>
+  <button class="link-button" id="loginBtn">มีบัญชีแล้ว? เข้าสู่ระบบ</button>
+  <p id="msg" style="color:red;"></p>
+
+  <script>
+    var texts = {
+      th: {
+        registerTitle: 'สมัครสมาชิก',
+        username: 'ชื่อผู้ใช้',
+        room: 'ห้องที่อาศัย',
+        email: 'อีเมล',
+        phone: 'เบอร์โทรศัพท์',
+        password: 'รหัสผ่าน',
+        confirmPassword: 'ยืนยันรหัสผ่าน',
+        registerBtn: 'สมัครสมาชิก',
+        loginBtn: 'มีบัญชีแล้ว? เข้าสู่ระบบ',
+        success: 'สมัครสมาชิกสำเร็จ! กำลังโหลด...',
+        failed: 'สมัครสมาชิกล้มเหลว',
+        error: 'เกิดข้อผิดพลาด',
+        passwordMismatch: 'รหัสผ่านไม่ตรงกัน',
+        passwordTooWeak: 'รหัสผ่านไม่ปลอดภัยพอ',
+        reqLength: 'อย่างน้อย 8 ตัวอักษร',
+        reqUpper: 'ตัวอักษรใหญ่อย่างน้อย 1 ตัว',
+        reqLower: 'ตัวอักษรเล็กอย่างน้อย 1 ตัว',
+        reqNumber: 'ตัวเลขอย่างน้อย 1 ตัว'
+      },
+      en: {
+        registerTitle: 'Register',
+        username: 'Username',
+        room: 'Room Number',
+        email: 'Email',
+        phone: 'Phone Number',
+        password: 'Password',
+        confirmPassword: 'Confirm Password',
+        registerBtn: 'Register',
+        loginBtn: 'Have an account? Login',
+        success: 'Registration successful! Redirecting...',
+        failed: 'Registration failed',
+        error: 'An error occurred',
+        passwordMismatch: 'Passwords do not match',
+        passwordTooWeak: 'Password is too weak',
+        reqLength: 'At least 8 characters',
+        reqUpper: 'At least 1 uppercase letter',
+        reqLower: 'At least 1 lowercase letter',
+        reqNumber: 'At least 1 number'
+      }
+    };
+
+    var currentLang = 'th';
+
+    var form = document.getElementById('registerForm');
+    var msg = document.getElementById('msg');
+    var loginBtn = document.getElementById('loginBtn');
+    var langToggle = document.getElementById('langToggle');
+    var passwordInput = document.querySelector('input[name=password]');
+    var confirmPasswordInput = document.querySelector('input[name=confirmPassword]');
+    var passwordRequirements = document.getElementById('passwordRequirements');
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      document.getElementById('registerTitle').textContent = texts[lang].registerTitle;
+      document.querySelector('input[name=username]').placeholder = texts[lang].username;
+      document.querySelector('input[name=room]').placeholder = texts[lang].room;
+      document.querySelector('input[name=email]').placeholder = texts[lang].email;
+      document.querySelector('input[name=phone]').placeholder = texts[lang].phone;
+      document.querySelector('input[name=password]').placeholder = texts[lang].password;
+      document.querySelector('input[name=confirmPassword]').placeholder = texts[lang].confirmPassword;
+      document.getElementById('registerBtn').textContent = texts[lang].registerBtn;
+      document.getElementById('loginBtn').textContent = texts[lang].loginBtn;
+      langToggle.textContent = lang === 'th' ? 'EN' : 'TH';
+
+      document.getElementById('req-length-text').textContent = texts[lang].reqLength;
+      document.getElementById('req-upper-text').textContent = texts[lang].reqUpper;
+      document.getElementById('req-lower-text').textContent = texts[lang].reqLower;
+      document.getElementById('req-number-text').textContent = texts[lang].reqNumber;
+    }
+
+    function checkPasswordStrength(password) {
+      var requirements = {
+        length: password.length >= 8,
+        upper: /[A-Z]/.test(password),
+        lower: /[a-z]/.test(password),
+        number: /\d/.test(password)
+      };
+
+      document.getElementById('req-length').className = 'requirement ' + (requirements.length ? 'valid' : 'invalid');
+      document.getElementById('req-upper').className = 'requirement ' + (requirements.upper ? 'valid' : 'invalid');
+      document.getElementById('req-lower').className = 'requirement ' + (requirements.lower ? 'valid' : 'invalid');
+      document.getElementById('req-number').className = 'requirement ' + (requirements.number ? 'valid' : 'invalid');
+
+      return requirements.length && requirements.upper && requirements.lower && requirements.number;
+    }
+
+    langToggle.addEventListener('click', function () {
+      setLanguage(currentLang === 'th' ? 'en' : 'th');
+    });
+
+    passwordInput.addEventListener('focus', function() {
+      passwordRequirements.classList.add('show');
+    });
+
+    passwordInput.addEventListener('input', function() {
+      checkPasswordStrength(this.value);
+    });
+
+    passwordInput.addEventListener('blur', function() {
+      if (!this.value) {
+        passwordRequirements.classList.remove('show');
+      }
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var formData = new FormData(form);
+      var password = formData.get('password');
+      var confirmPassword = formData.get('confirmPassword');
+
+      if (password !== confirmPassword) {
+        msg.style.color = 'red';
+        msg.textContent = texts[currentLang].passwordMismatch;
+        return;
+      }
+
+      if (!checkPasswordStrength(password)) {
+        msg.style.color = 'red';
+        msg.textContent = texts[currentLang].passwordTooWeak;
+        return;
+      }
+
+      var data = {
+        username: formData.get('username'),
+        room: formData.get('room'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        password: password
+      };
+
+      fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(function (res) {
+        return res.json().then(function (result) {
+          if (res.ok) {
+            msg.style.color = 'green';
+            msg.textContent = texts[currentLang].success;
+            setTimeout(function () {
+              window.location.href = '/login.html';
+            }, 1000);
+          } else {
+            msg.style.color = 'red';
+            msg.textContent = result.message || texts[currentLang].failed;
+          }
+        });
+      })
+      .catch(function () {
+        msg.style.color = 'red';
+        msg.textContent = texts[currentLang].error;
+      });
+    });
+
+    loginBtn.addEventListener('click', function () {
+      window.location.href = '/login.html';
+    });
+
+    setLanguage(currentLang);
+  </script>
+</body>
+</html>

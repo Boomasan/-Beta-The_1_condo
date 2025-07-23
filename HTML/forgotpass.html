@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>รีเซ็ตรหัสผ่าน</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../css/log_res.css">
+  <!-- <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fdf6ee;
+      color: #4e342e;
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #5d4037;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    input {
+      background-color: #fff9f2;
+    }
+    button {
+      background-color: #8d6e63;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #a1887f;
+    }
+    #msg {
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style> -->
+</head>
+<body>
+  <h2>รีเซ็ตรหัสผ่าน</h2>
+  <form id="resetForm">
+    <input type="password" id="newPassword" placeholder="รหัสผ่านใหม่" required />
+    <input type="password" id="confirmPassword" placeholder="ยืนยันรหัสผ่านใหม่" required />
+    <button type="submit">รีเซ็ตรหัสผ่าน</button>
+  </form>
+  <p id="msg"></p>
+
+  <script>
+    const form = document.getElementById('resetForm');
+    const newPassword = document.getElementById('newPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const msg = document.getElementById('msg');
+
+    // ดึง token จาก query string
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    if (!token) {
+      msg.style.color = 'red';
+      msg.textContent = 'ลิงก์ไม่ถูกต้องหรือหมดอายุ';
+      form.style.display = 'none';
+    }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      msg.textContent = '';
+
+      if (newPassword.value !== confirmPassword.value) {
+        msg.style.color = 'red';
+        msg.textContent = 'รหัสผ่านไม่ตรงกัน';
+        return;
+      }
+
+      fetch('/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          token: token,
+          newPassword: newPassword.value
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (res.ok) {
+          msg.style.color = 'green';
+          msg.textContent = 'รีเซ็ตรหัสผ่านสำเร็จ! กำลังกลับไปหน้าเข้าสู่ระบบ...';
+          setTimeout(() => {
+            window.location.href = './login.html';
+          }, 2000);
+        } else {
+          msg.style.color = 'red';
+          msg.textContent = data.message || 'เกิดข้อผิดพลาด';
+        }
+      })
+      .catch(() => {
+        msg.style.color = 'red';
+        msg.textContent = 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์';
+      });
+    });
+  </script>
+</body>
+</html>

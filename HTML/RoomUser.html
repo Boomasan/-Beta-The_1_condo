@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายการห้องพักให้เช่า</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div id="langToggle" onclick="toggleLanguage()">EN</div>
+    
+    <h2 id="title">รายการห้องพักให้เช่า</h2>
+    
+    <!-- Search Section -->
+    <div>
+        <input type="text" id="searchRoom" placeholder="ค้นหาห้องพัก (หมายเลขห้อง หรือ ประเภท)">
+        <button onclick="searchRooms()">ค้นหา</button>
+        <button class="link-button" onclick="showAllRooms()">แสดงทั้งหมด</button>
+    </div>
+    
+    <!-- Room Statistics -->
+    <div id="roomStats" style="background-color: #fff9f2; padding: 10px; margin: 10px 0; border-radius: 6px; border: 1px solid #ccc; text-align: center;">
+        <h2 id="statsTitle">สถิติห้องพัก</h2>
+        <div id="stats"></div>
+    </div>
+    
+    <!-- Room List -->
+    <div>
+        <h2 id="listTitle">รายการห้องพัก</h2>
+        <div id="roomList" style="background-color: #fff9f2; padding: 10px; margin: 10px 0; border-radius: 6px; border: 1px solid #ccc;"></div>
+    </div>
+    
+    <!-- Admin Link -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button onclick="goToAdmin()" style="background-color: #5d4037;">ไปยังระบบจัดการ (Admin)</button>
+    </div>
+    
+    <div id="msg"></div>
+
+    <script>
+        let language = 'th';
+        
+        // จำลองฐานข้อมูลห้องพัก (เหมือนกับหน้า admin)
+        let rooms = [
+            { id: 1, roomNumber: "A101", type: "ห้องเดี่ยว", price: 3500, details: "ห้องน้ำในตัว, แอร์, Wi-Fi", status: "ว่าง" },
+            { id: 2, roomNumber: "A102", type: "ห้องคู่", price: 5000, details: "ห้องน้ำในตัว, แอร์, Wi-Fi, ตู้เย็น", status: "ว่าง" },
+            { id: 3, roomNumber: "B201", type: "หอพัก", price: 2500, details: "ห้องน้ำรวม, พัดลม, Wi-Fi", status: "ไม่ว่าง" },
+            { id: 4, roomNumber: "A201", type: "ห้องเดี่ยว", price: 3800, details: "ห้องน้ำในตัว, แอร์, Wi-Fi, ระเบียง", status: "ว่าง" },
+            { id: 5, roomNumber: "B101", type: "ห้องคู่", price: 4500, details: "ห้องน้ำในตัว, แอร์, Wi-Fi", status: "ไม่ว่าง" },
+            { id: 6, roomNumber: "C301", type: "หอพัก", price: 2800, details: "ห้องน้ำรวม, แอร์, Wi-Fi", status: "ว่าง" }
+        ];
+
+        const translations = {
+            th: {
+                title: "รายการห้องพักให้เช่า",
+                searchPlaceholder: "ค้นหาห้องพัก (หมายเลขห้อง หรือ ประเภท)",
+                searchBtn: "ค้นหา",
+                showAllBtn: "แสดงทั้งหมด",
+                statsTitle: "สถิติห้องพัก",
+                listTitle: "รายการห้องพัก",
+                adminBtn: "ไปยังระบบจัดการ (Admin)",
+                available: "ว่าง",
+                occupied: "ไม่ว่าง",
+                totalRooms: "ห้องทั้งหมด",
+                availableRooms: "ห้องว่าง",
+                occupiedRooms: "ห้องไม่ว่าง",
+                pricePerMonth: "บาท/เดือน",
+                roomType: "ประเภท",
+                price: "ราคา",
+                details: "รายละเอียด",
+                status: "สถานะ"
+            },
+            en: {
+                title: "Room Rental Listings",
+                searchPlaceholder: "Search rooms (room number or type)",
+                searchBtn: "Search",
+                showAllBtn: "Show All",
+                statsTitle: "Room Statistics",
+                listTitle: "Room List",
+                adminBtn: "Go to Management System (Admin)",
+                available: "Available",
+                occupied: "Occupied",
+                totalRooms: "Total Rooms",
+                availableRooms: "Available Rooms",
+                occupiedRooms: "Occupied Rooms",
+                pricePerMonth: "THB/Month",
+                roomType: "Type",
+                price: "Price",
+                details: "Details",
+                status: "Status"
+            }
+        };
+
+        function toggleLanguage() {
+            language = language === 'th' ? 'en' : 'th';
+            document.getElementById('langToggle').textContent = language === 'th' ? 'EN' : 'TH';
+            updateLanguage();
+        }
+
+        function updateLanguage() {
+            const t = translations[language];
+            document.getElementById('title').textContent = t.title;
+            document.getElementById('searchRoom').placeholder = t.searchPlaceholder;
+            document.getElementById('statsTitle').textContent = t.statsTitle;
+            document.getElementById('listTitle').textContent = t.listTitle;
+            
+            showRoomStats();
+            showAllRooms();
+        }
+
+        function searchRooms() {
+            const searchTerm = document.getElementById('searchRoom').value.toLowerCase();
+            if (!searchTerm) {
+                showAllRooms();
+                return;
+            }
+            
+            const filteredRooms = rooms.filter(room => 
+                room.roomNumber.toLowerCase().includes(searchTerm) ||
+                room.type.toLowerCase().includes(searchTerm)
+            );
+            
+            displayRooms(filteredRooms);
+            
+            if (filteredRooms.length === 0) {
+                showMessage("ไม่พบห้องพักที่ค้นหา");
+            }
+        }
+
+        function showAllRooms() {
+            displayRooms(rooms);
+            showRoomStats();
+        }
+
+        function displayRooms(roomsToShow) {
+            const roomListDiv = document.getElementById('roomList');
+            const t = translations[language];
+            
+            if (roomsToShow.length === 0) {
+                roomListDiv.innerHTML = '<p style="text-align: center;">ไม่มีข้อมูลห้องพัก</p>';
+                return;
+            }
+            
+            let html = '';
+            roomsToShow.forEach(room => {
+                const statusColor = room.status === 'ว่าง' ? '#4caf50' : '#f44336';
+                const statusText = language === 'th' ? room.status : (room.status === 'ว่าง' ? t.available : t.occupied);
+                
+                html += `
+                    <div style="background-color: white; padding: 15px; margin: 10px 0; border-radius: 6px; border-left: 4px solid ${statusColor};">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <strong style="font-size: 18px;">ห้อง ${room.roomNumber}</strong>
+                            <span style="color: ${statusColor}; font-weight: bold; padding: 4px 8px; background-color: ${statusColor}20; border-radius: 4px;">
+                                ${statusText}
+                            </span>
+                        </div>
+                        <div style="margin-bottom: 5px;">
+                            <strong>${t.roomType}:</strong> ${room.type}
+                        </div>
+                        <div style="margin-bottom: 5px;">
+                            <strong>${t.price}:</strong> ${room.price.toLocaleString()} ${t.pricePerMonth}
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <strong>${t.details}:</strong> ${room.details}
+                        </div>
+                        ${room.status === 'ว่าง' ? 
+                            '<div style="text-align: center; margin-top: 10px;"><button onclick="contactForRoom(\'' + room.roomNumber + '\')" style="background-color: #4caf50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">สนใจห้องนี้</button></div>' : 
+                            ''
+                        }
+                    </div>
+                `;
+            });
+            
+            roomListDiv.innerHTML = html;
+        }
+
+        function showRoomStats() {
+            const statsDiv = document.getElementById('stats');
+            const t = translations[language];
+            
+            const totalRooms = rooms.length;
+            const availableRooms = rooms.filter(r => r.status === 'ว่าง').length;
+            const occupiedRooms = rooms.filter(r => r.status === 'ไม่ว่าง').length;
+            
+            const minPrice = Math.min(...rooms.map(r => r.price));
+            const maxPrice = Math.max(...rooms.map(r => r.price));
+            
+            statsDiv.innerHTML = `
+                <div style="display: flex; justify-content: space-around; text-align: center;">
+                    <div>
+                        <div style="font-size: 24px; font-weight: bold; color: #5d4037;">${totalRooms}</div>
+                        <div style="font-size: 12px;">${t.totalRooms}</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 24px; font-weight: bold; color: #4caf50;">${availableRooms}</div>
+                        <div style="font-size: 12px;">${t.availableRooms}</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 24px; font-weight: bold; color: #f44336;">${occupiedRooms}</div>
+                        <div style="font-size: 12px;">${t.occupiedRooms}</div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; font-size: 14px;">
+                    <strong>ช่วงราคา:</strong> ${minPrice.toLocaleString()} - ${maxPrice.toLocaleString()} ${t.pricePerMonth}
+                </div>
+            `;
+        }
+
+        function contactForRoom(roomNumber) {
+            showMessage(`กรุณาติดต่อเจ้าของหอพักสำหรับห้อง ${roomNumber}`);
+        }
+
+        function goToAdmin() {
+            // ในระบบจริงจะเป็นการ redirect ไปหน้า admin
+            showMessage("กำลังเปิดระบบจัดการ... (ในระบบจริงจะเป็นหน้าแยก)");
+            // window.location.href = "admin.html";
+        }
+
+        function showMessage(message) {
+            const msgDiv = document.getElementById('msg');
+            msgDiv.textContent = message;
+            msgDiv.style.color = '#5d4037';
+            setTimeout(() => {
+                msgDiv.textContent = '';
+            }, 3000);
+        }
+
+        // แสดงข้อมูลเริ่มต้น
+        showAllRooms();
+    </script>
+</body>
+</html>
