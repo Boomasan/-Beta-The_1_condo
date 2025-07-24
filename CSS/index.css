@@ -7,9 +7,6 @@
 
 body {
     font-family: 'Sarabun', 'Noto Sans Thai', Arial, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f5f5f5;
 }
 
 /* Header styles */
@@ -39,7 +36,7 @@ body {
 }
 
 .lang-toggle {
-    background: rgba(139, 69, 19, 0.8);
+    background: #8b4513cc;
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 20px;
@@ -50,6 +47,52 @@ body {
 
 .lang-toggle:hover {
     background: rgba(139, 69, 19, 1);
+}
+
+.sidepanel  {
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  height: 650px;
+  top: 0;
+  right: 0;  /* เปลี่ยนจาก left: 0; เป็น right: 0; */
+  background-color: #2c2c2cde;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidepanel a {
+  padding: 8px 8px 8px 32px;  /* สลับตำแหน่ง padding ซ้าย-ขวา */
+  text-decoration: none;
+  font-size: 25px;
+  color: #e0e0e0;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidepanel a:hover {
+  color: #ff6b47    ;
+}
+
+.sidepanel .closebtn {
+  position: absolute;
+  top: 0;
+  font-size: 36px;
+}
+
+.openbtn {
+  font-size: 15px;
+  border-radius: 50px;
+  cursor: pointer;
+  background-color: #8b4513cc;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color:#444;
 }
 
 .menu-icon {

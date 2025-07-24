@@ -4,7 +4,7 @@ const btn = document.getElementById('translateBtn');
 const els = ['.hero-text h1', '.subtitle', '.location-info p:nth-child(2)', '.location-info p:nth-child(3)', '.location-info p:nth-child(4)', '.footer p'];
 let orig = {};
 
-// Complete translation dictionary
+// translate
 const dict = {
   'หนึ่งคอนโดมิเนียม': 'The 1 Condo',
   'แจ้งวัฒนะ': 'Chaengwattana', 
@@ -49,3 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   btn?.addEventListener('click', toggleLang);
 });
+
+// sidePanel
+function openNav() {
+  document.getElementById("mySidepanel").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidepanel").style.width = "0";
+}
