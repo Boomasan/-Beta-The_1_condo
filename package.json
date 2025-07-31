@@ -1,0 +1,24 @@
+{
+  "name": "the-1-condo",
+  "version": "1.0.0",
+  "description": "The 1 Condo Management System",
+  "main": "room.js",
+  "scripts": {
+    "start": "node room.js",
+    "dev": "nodemon room.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["condo", "management", "express", "nodejs"],
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  }
+}
