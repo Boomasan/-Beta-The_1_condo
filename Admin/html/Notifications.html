@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ฟอร์มสร้างประชาสัมพันธ์</title>
+    <link rel="stylesheet" href="/Admin/css/Notifications.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="/image/logo.png" alt="" class="logo">
+        </div>
+        <div class="nav-icons">
+            <button id="translateBtn" class="lang-toggle"> <!--translate button-->
+                TH
+            </button>
+            <div id="mySidepanel" class="sidepanel"> <!--menu sidepanel-->
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                <a href="/Admin/html/Notifications.html">การแจ้งเตือน</a>
+                <a href="/Admin/html/RoomAdmin.html">การเช่าห้อง</a>
+                <a href="#">Clients</a>
+                <a href="#">Contact</a>
+            </div>
+            <button class="openbtn" onclick="openNav()">☰</button>
+            <img src="/image/user logo.png" alt="" class="profile-icon">
+        </div>
+    </div>
+
+    <div class="hero-section">
+        <div class="container">
+            <h1>ส่งการแจ้งเตือนใหม่</h1>
+
+            <div class="admin-panel">
+                <div class="form-section">
+                    <form id="adminForm">
+                        <div class="form-group">
+                            <label for="title">หัวข้อ:</label>
+                            <input type="text" id="title" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="content">เนื้อหา:</label>
+                            <textarea id="content" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>ประเภท:</label>
+                            <div class="pr-types">
+                                <div class="pr-type-btn" data-type="news">📰 ข่าวสาร</div>
+                                <div class="pr-type-btn" data-type="event">🎉 กิจกรรม</div>
+                                <div class="pr-type-btn" data-type="announcement">📢 ประกาศ</div>
+                                <div class="pr-type-btn" data-type="promotion">🏷️ โปรโมชั่น</div>
+                                <div class="pr-type-btn" data-type="recruitment">👥 รับสมัครงาน</div>
+                                <div class="pr-type-btn" data-type="education">📚 การศึกษา</div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="send-btn">📤 ส่งการแจ้งเตือน</button>
+                    </form>
+                </div>
+
+                <div class="stats-section">
+                    <h3>สถิติการแจ้งเตือน</h3>
+
+                    <div class="stats-card">
+                        <div class="stats-number" id="totalSent">0</div>
+                        <div>ส่งทั้งหมด</div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="stats-number" id="todaySent">0</div>
+                        <div>ส่งวันนี้</div>
+                    </div>
+
+                    <h4>การแจ้งเตือนล่าสุด</h4>
+                    <div class="sent-notifications" id="sentNotifications">
+                        <p style="text-align: center; color: #666;">ยังไม่มีการแจ้งเตือน</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>&copy; 2025 The 1 Condo Management. All rights reserved.</p>
+    </div>
+    <script src="/Admin/js/Notifications.js"></script>
+</body>
+
+</html>

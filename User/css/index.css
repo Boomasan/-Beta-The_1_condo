@@ -1,4 +1,3 @@
-/* Reset and base styles */
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +10,7 @@ body {
 
 /* Header styles */
 .header {
-    background: linear-gradient(135deg, #ff6b357f);
+    background: #ff6b357f;
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;

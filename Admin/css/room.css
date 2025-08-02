@@ -1,0 +1,259 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Sarabun', 'Noto Sans Thai', Arial, sans-serif;
+}
+
+.header {
+    background: linear-gradient(135deg, #ff6b357f);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 70px;
+    height: auto;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Header styles */
+.header {
+    background: linear-gradient(135deg, #ff6b357f);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 70px;
+    height: auto;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/*translate button*/
+.lang-toggle {
+    background: #8b4513cc;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+/*menu sidepanel*/
+.sidepanel  {
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  height: 650px;
+  top: 0;
+  right: 0;  /* เปลี่ยนจาก left: 0; เป็น right: 0; */
+  background-color: #2c2c2cde;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidepanel a {
+  padding: 8px 8px 8px 32px;  /* สลับตำแหน่ง padding ซ้าย-ขวา */
+  text-decoration: none;
+  font-size: 25px;
+  color: #e0e0e0;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidepanel a:hover {
+  color: #ff6b47    ;
+}
+
+.sidepanel .closebtn {
+  position: absolute;
+  top: 0;
+  font-size: 36px;
+}
+
+.openbtn {
+  font-size: 15px;
+  border-radius: 50px;
+  cursor: pointer;
+  background-color: #8b4513cc;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color:#444;
+}
+
+/*user logo*/
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #8b4513;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.profile-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Hero section */
+.hero-section {
+    background: linear-gradient(135deg, #e8d5c4);
+    padding : 2rem;
+}
+
+.lang-toggle:hover {
+    background: rgba(139, 69, 19, 1);
+}
+
+h2 {
+    text-align: center;
+    color: #5d4037;
+    margin-bottom: 20px;
+}
+
+.section {
+    background-color: #ff6b357f;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+input,
+textarea,
+select,
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+input,
+textarea,
+select {
+    background-color: #fff9f2;
+}
+
+button {
+    background-color: rgba(64, 64, 64, 0.449);
+    color: white;
+    border: none;
+    transition: background 0.3s;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #6d4c41;
+}
+
+.status-button {
+    background-color: #2196F3;
+    margin: 5px;
+    width: auto;
+    display: inline-block;
+}
+
+.status-button:hover {
+    background-color: #1976D2;
+}
+
+.room-card {
+    background-color: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border-left: 4px solid #4caf50;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.room-card.unavailable {
+    border-left-color: #f44336;
+}
+
+.room-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
+.result-box {
+    background-color: #fff9f2;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    display: none;
+}
+
+.message {
+    text-align: center;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.loading {
+    text-align: center;
+    color: #666;
+}
+
+/* Footer styles */
+.footer {
+    background: #8b4513;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
